@@ -35,21 +35,40 @@ public class DateTimeExample {
 			if((year%4)==0 && (year%100)!=0 || (year%400)==0) { // 윤년에 해당하는 경우
 				for(int i=0; i<leapYear.length; i++) {
 					currentDays -= leapYear[i]; // currentDay에서 366일 빼줌
-					if(currentDays <= 0) {
+					if(currentDays < 0) {
 						month = i+1;
 						day = (int) currentDays + leapYear[i] + 1;
 						yy = 1; // 윤년
 						break Outter;
+					} else if(currentDays == 0) { // 다음달로 넘어간 경우
+						month = i+2;
+						if(month == 13) {
+							month = 1;
+						}
+						day = 1;
+						yy = 1; // 윤년
+						break Outter;
+					} else {
+						continue;
 					}
 				}
 				year++; 
 			} else { // 평년에 해당하는 경우
 				for(int i=0; i<normalYear.length; i++) {
 					currentDays -= normalYear[i]; // currentDay에서 365일 빼줌
-					if(currentDays <= 0) {
+					if(currentDays < 0) {
 						month = i+1;
 						day = (int) currentDays + normalYear[i] + 1;
 						break Outter;
+					} else if(currentDays == 0) { // 다음달로 넘어간 경우
+						month = i+2;
+						if(month == 13) {
+							month = 1;
+						}
+						day = 1;
+						break Outter;
+					} else {
+						continue;
 					}
 				}
 				year++; 
